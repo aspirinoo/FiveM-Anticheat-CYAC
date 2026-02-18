@@ -1,0 +1,1883 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Secure | Admin Menu</title>
+    <style>
+        :root {
+            --primary-bg: #0a0a0f;
+            --secondary-bg: #13131f;
+            --accent-color: #5077dc;
+            --accent-hover: #6088ed;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --border-color: #2a2a3a;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --danger-color: #f44336;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: transparent;
+            color: var(--text-primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            width: 1000px;
+            height: 700px;
+            background-color: var(--primary-bg);
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            position: relative;
+            border: 1px solid var(--border-color);
+        }
+
+        .sidebar {
+            width: 220px;
+            background-color: var(--secondary-bg);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .logo {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .nav-links {
+            padding: 20px 0;
+            flex-grow: 1;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            gap: 12px;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background-color: rgba(80, 119, 220, 0.1);
+            color: var(--accent-color);
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .nav-link.active {
+            color: var(--text-primary);
+        }
+
+        .nav-link i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            max-height: 700px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background-color: var(--secondary-bg);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .card-title {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .card-icon {
+            width: 36px;
+            height: 36px;
+            background-color: rgba(80, 119, 220, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-color);
+        }
+
+        .card-value {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .card-description {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .announcements {
+            background-color: var(--secondary-bg);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .announcements-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .announcement {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .announcement:last-child {
+            border-bottom: none;
+        }
+
+        .announcement-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+        }
+
+        .announcement-title i {
+            color: var(--accent-color);
+        }
+
+        .announcement-content {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .announcement-time {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        .chart-container {
+            background-color: var(--secondary-bg);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            height: 250px;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 15px;
+        }
+
+        .tab {
+            padding: 8px 15px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .tab:hover {
+            color: var(--accent-color);
+        }
+
+        .tab.active {
+            color: var(--accent-color);
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        .table-container {
+            background-color: var(--secondary-bg);
+            border-radius: 10px;
+            padding: 15px;
+            overflow-x: auto;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .search-container {
+            position: relative;
+        }
+
+        .search-input {
+            background-color: var(--primary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            padding: 6px 12px 6px 30px;
+            color: var(--text-primary);
+            outline: none;
+            width: 200px;
+            font-size: 0.85rem;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.85rem;
+        }
+
+        th {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        tr:hover {
+            background-color: rgba(80, 119, 220, 0.05);
+        }
+
+        .status {
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .status-online {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--success-color);
+        }
+
+        .status-offline {
+            background-color: rgba(244, 67, 54, 0.1);
+            color: var(--danger-color);
+        }
+
+        .status-stopped {
+            background-color: rgba(244, 67, 54, 0.1);
+            color: var(--danger-color);
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .btn-danger {
+            background-color: rgba(244, 67, 54, 0.1);
+            color: var(--danger-color);
+        }
+
+        .btn-danger:hover {
+            background-color: rgba(244, 67, 54, 0.2);
+        }
+
+        .btn-warning {
+            background-color: rgba(255, 152, 0, 0.1);
+            color: var(--warning-color);
+        }
+
+        .btn-warning:hover {
+            background-color: rgba(255, 152, 0, 0.2);
+        }
+
+        .btn-success {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--success-color);
+        }
+
+        .btn-success:hover {
+            background-color: rgba(76, 175, 80, 0.2);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 15px;
+            gap: 5px;
+        }
+
+        .pagination-item {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.85rem;
+        }
+
+        .pagination-item:hover {
+            background-color: rgba(80, 119, 220, 0.1);
+            color: var(--accent-color);
+        }
+
+        .pagination-item.active {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: var(--secondary-bg);
+            border-radius: 10px;
+            padding: 20px;
+            width: 350px;
+            max-width: 90%;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .modal-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            cursor: pointer;
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .form-input,
+        .form-select {
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            background-color: var(--primary-bg);
+            color: var(--text-primary);
+            outline: none;
+            font-size: 0.85rem;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            border-color: var(--accent-color);
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .main-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .main-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .main-content::-webkit-scrollbar-thumb {
+            background-color: rgba(80, 119, 220, 0.3);
+            border-radius: 3px;
+        }
+
+        .main-content::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(80, 119, 220, 0.5);
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: var(--secondary-bg);
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            right: 0;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            color: var(--text-primary);
+            padding: 8px 12px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .dropdown-item:hover {
+            background-color: rgba(80, 119, 220, 0.1);
+            color: var(--accent-color);
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background-color: var(--border-color);
+            margin: 4px 0;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .refresh-btn i.spinning {
+            animation: spin 1s linear infinite;
+        }
+    </style>
+</head>
+
+
+
+<body>
+    <div class="container" id="admin-panel" style="display: none;">
+        <div class="close-btn" id="close-panel">
+            <i class="fas fa-times"></i>
+        </div>
+
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="img/cyberSecure.png" alt="Cyber Secures Logo">
+                </div>
+                <h1>Cyber Secures</h1>
+            </div>
+            <div class="nav-links">
+                <a class="nav-link active" data-tab="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a class="nav-link" data-tab="players">
+                    <i class="fas fa-users"></i>
+                    <span>Players</span>
+                </a>
+                <a class="nav-link" data-tab="resources">
+                    <i class="fas fa-cubes"></i>
+                    <span>Resources</span>
+                </a>
+                <a class="nav-link" data-tab="bans">
+                    <i class="fas fa-ban"></i>
+                    <span>Bans</span>
+                </a>
+                <a class="nav-link" data-tab="vehicle">
+                    <i class="fas fa-car"></i>
+                    <span>Vehicle</span>
+                </a>
+                <a class="nav-link" data-tab="admin">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Admin</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="header">
+                <h1>Cyber Secures Dashboard</h1>
+                <div class="user-info">
+                    <div class="user-avatar">A</div>
+                    <span>Admin</span>
+                </div>
+            </div>
+
+            <div class="tab-content active" id="dashboard">
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">PLAYERS ONLINE</div>
+                            <div class="card-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                        </div>
+                        <div class="card-value" id="player-count">0</div>
+                        <div class="card-description">Active players in the server</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">TOTAL BANS</div>
+                            <div class="card-icon">
+                                <i class="fas fa-ban"></i>
+                            </div>
+                        </div>
+                        <div class="card-value" id="ban-count">0</div>
+                        <div class="card-description">Players banned from the server</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">RESOURCES</div>
+                            <div class="card-icon">
+                                <i class="fas fa-cubes"></i>
+                            </div>
+                        </div>
+                        <div class="card-value" id="resource-count">0</div>
+                        <div class="card-description">Active resources running</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">VEHICLES</div>
+                            <div class="card-icon">
+                                <i class="fas fa-car"></i>
+                            </div>
+                        </div>
+                        <div class="card-value" id="vehicle-count">0</div>
+                        <div class="card-description">Vehicles spawned in the server</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="playerChart"></canvas>
+                </div>
+
+                <div class="announcements">
+                    <div class="announcements-header">
+                        <h2>Announcements</h2>
+                        <button class="btn btn-primary" id="add-announcement">
+                            <i class="fas fa-plus"></i> Add
+                        </button>
+                    </div>
+                    <div id="announcements-list">
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="players">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h2>Players</h2>
+                        <div class="search-container">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" class="search-input" id="players-search" placeholder="Search players...">
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Steam ID</th>
+                                <th>Status</th>
+                                <th>Ping</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="players-table">
+                        </tbody>
+                    </table>
+                    <div class="pagination" id="players-pagination">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="resources">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h2>Resources</h2>
+                        <div class="search-container">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" class="search-input" id="resources-search"
+                                placeholder="Search resources...">
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Status</th>
+                                <th>Version</th>
+                                <th>Author</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resources-table">
+                        </tbody>
+                    </table>
+                    <div class="pagination" id="resources-pagination">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="bans">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h2>Bans</h2>
+                        <div class="table-actions">
+                            <button class="btn btn-primary refresh-btn" id="refresh-bans">
+                                <i class="fas fa-sync-alt"></i> Refresh Bans
+                            </button>
+                            <div class="search-container">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" class="search-input" id="bans-search" placeholder="Search bans...">
+                            </div>
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Player Name</th>
+                                <th>Steam ID</th>
+                                <th>Reason</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bans-table">
+                        </tbody>
+                    </table>
+                    <div class="pagination" id="bans-pagination">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="vehicle">
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">SPAWN VEHICLE</div>
+                            <div class="card-icon">
+                                <i class="fas fa-car"></i>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Vehicle Model</label>
+                            <input type="text" class="form-input" id="vehicle-model"
+                                placeholder="Enter vehicle model...">
+                        </div>
+                        <button class="btn btn-primary" id="spawn-vehicle">
+                            <i class="fas fa-plus"></i> Spawn Vehicle
+                        </button>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">DELETE VEHICLE</div>
+                            <div class="card-icon">
+                                <i class="fas fa-trash-alt"></i>
+                            </div>
+                        </div>
+                        <div class="card-description">Delete the closest vehicle to your position</div>
+                        <button class="btn btn-danger" id="delete-closest-vehicle">
+                            <i class="fas fa-trash-alt"></i> Delete Closest
+                        </button>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">DELETE ALL VEHICLES</div>
+                            <div class="card-icon">
+                                <i class="fas fa-trash-alt"></i>
+                            </div>
+                        </div>
+                        <div class="card-description">Delete all vehicles in the server</div>
+                        <button class="btn btn-danger" id="delete-all-vehicles">
+                            <i class="fas fa-trash-alt"></i> Delete All
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <h2>Spawned Vehicles</h2>
+                        <div class="search-container">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" class="search-input" id="vehicles-search"
+                                placeholder="Search vehicles...">
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Model</th>
+                                <th>Driver</th>
+                                <th>Plate</th>
+                                <th>Location</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="vehicles-table">
+                        </tbody>
+                    </table>
+                    <div class="pagination" id="vehicles-pagination">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="admin">
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">NOCLIP</div>
+                            <div class="card-icon">
+                                <i class="fas fa-ghost"></i>
+                            </div>
+                        </div>
+                        <div class="card-description">Toggle noclip mode for your character</div>
+                        <button class="btn btn-primary" id="toggle-noclip">
+                            <i class="fas fa-toggle-on"></i> Toggle Noclip
+                        </button>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">KICK PLAYER</div>
+                            <div class="card-icon">
+                                <i class="fas fa-user-slash"></i>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Player ID</label>
+                            <input type="text" class="form-input" id="kick-player-id" placeholder="Enter player ID...">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Reason</label>
+                            <input type="text" class="form-input" id="kick-reason" placeholder="Enter reason...">
+                        </div>
+                        <button class="btn btn-warning" id="kick-player">
+                            <i class="fas fa-user-slash"></i> Kick Player
+                        </button>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">BAN PLAYER</div>
+                            <div class="card-icon">
+                                <i class="fas fa-ban"></i>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Player ID</label>
+                            <input type="text" class="form-input" id="ban-player-id" placeholder="Enter player ID...">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Reason</label>
+                            <input type="text" class="form-input" id="ban-reason" placeholder="Enter reason...">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Duration (hours, 0 for permanent)</label>
+                            <input type="number" class="form-input" id="ban-duration" placeholder="Enter duration...">
+                        </div>
+                        <button class="btn btn-danger" id="ban-player">
+                            <i class="fas fa-ban"></i> Ban Player
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="message-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Send Message to Player</div>
+                <div class="modal-close">&times;</div>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Player</label>
+                    <input type="text" class="form-input" id="message-player" readonly>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Message</label>
+                    <textarea class="form-input" id="message-content" rows="3"
+                        placeholder="Enter your message..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="send-message">Send</button>
+                <button class="btn btn-danger modal-close-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="announcement-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Add Announcement</div>
+                <div class="modal-close">&times;</div>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Title</label>
+                    <input type="text" class="form-input" id="announcement-title" placeholder="Enter title...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Content</label>
+                    <textarea class="form-input" id="announcement-content" rows="3"
+                        placeholder="Enter announcement content..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="save-announcement">Save</button>
+                <button class="btn btn-danger modal-close-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal" id="player-actions-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Player Actions</div>
+                <div class="modal-close">&times;</div>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Player</label>
+                    <input type="text" class="form-input" id="action-player" readonly>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" id="teleport-to-me">
+                        <i class="fas fa-map-marker-alt"></i> Teleport to Me
+                    </button>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" id="teleport-to-player">
+                        <i class="fas fa-map-marker-alt"></i> Teleport to Player
+                    </button>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-warning" id="action-message">
+                        <i class="fas fa-comment"></i> Message
+                    </button>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-warning" id="action-kick">
+                        <i class="fas fa-user-slash"></i> Kick
+                    </button>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-danger" id="action-ban">
+                        <i class="fas fa-ban"></i> Ban
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        let playerChart = null;
+        let allPlayers = [];
+        let allResources = [];
+        let allVehicles = [];
+        let allBans = [];
+
+        function sendToClient(type, data) {
+            fetch(`https://${GetParentResourceName()}/${type}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8',
+                },
+                body: JSON.stringify(data || {})
+            }).catch(err => console.error(`sendToClient error (${type}):`, err));
+        }
+
+
+        window.addEventListener('message', function (event) {
+            const data = event.data;
+
+            if (data.type === 'openPanel') {
+                document.getElementById('admin-panel').style.display = 'flex';
+            } else if (data.type === 'closePanel') {
+                document.getElementById('admin-panel').style.display = 'none';
+            } else if (data.type === 'updateData') {
+                updateDashboardData(data.dashboardData);
+                updatePlayersData(data.playersData);
+                updateResourcesData(data.resourcesData);
+                updateVehiclesData(data.vehiclesData);
+                updateAnnouncementsData(data.announcementsData);
+            }
+        });
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                document.getElementById('admin-panel').style.display = 'none';
+                sendToClient('closePanel', {});
+            }
+        });
+
+        function refreshBans() {
+    const refreshBtn = document.getElementById('refresh-bans');
+    const refreshIcon = refreshBtn.querySelector('i');
+
+    refreshIcon.classList.add('spinning');
+
+    fetch(`https://${GetParentResourceName()}/getBans`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: JSON.stringify({})
+    })
+        .then(res => res.text())
+        .then(text => {
+            try {
+                if (!text) throw new Error('Lege response');
+
+                const bans = JSON.parse(text);
+                allBans = bans;
+                document.getElementById('ban-count').textContent = bans.length;
+
+                const paginationEl = document.getElementById('bans-pagination');
+                if (!paginationEl.querySelector('.pagination-item.active')) {
+                    const firstPage = document.createElement('div');
+                    firstPage.className = 'pagination-item active';
+                    firstPage.textContent = '1';
+                    paginationEl.innerHTML = '';
+                    paginationEl.appendChild(firstPage);
+                }
+
+                renderBansTable(bans);
+            } catch (err) {
+                console.error('Fout bij verwerken van bans JSON:', err, text);
+            }
+
+            setTimeout(() => {
+                refreshIcon.classList.remove('spinning');
+            }, 500);
+        })
+        .catch(error => {
+            console.error('Error refreshing bans:', error);
+            refreshIcon.classList.remove('spinning');
+        });
+}
+
+
+
+        async function loadBans() {
+            try {
+                const response = await fetch('bans.json');
+                const bans = await response.json();
+                allBans = bans;
+                document.getElementById('ban-count').textContent = bans.length;
+
+                const paginationEl = document.getElementById('bans-pagination');
+                if (paginationEl.querySelector('.pagination-item.active') === null) {
+                    const firstPage = document.createElement('div');
+                    firstPage.className = 'pagination-item active';
+                    firstPage.textContent = '1';
+                    paginationEl.innerHTML = '';
+                    paginationEl.appendChild(firstPage);
+                }
+
+                renderBansTable(bans);
+            } catch (error) {
+                console.error('Error loading bans:', error);
+            }
+        }
+
+        function updateDashboardData(data) {
+            if (!data) return;
+
+            document.getElementById('player-count').textContent = data.playerCount || 0;
+            document.getElementById('resource-count').textContent = data.resourceCount || 0;
+            document.getElementById('vehicle-count').textContent = data.vehicleCount || 0;
+
+            initPlayerChart(data.playerHistory || []);
+        }
+
+        function updatePlayersData(players) {
+            if (!players || !Array.isArray(players)) return;
+
+            allPlayers = players;
+
+            const paginationEl = document.getElementById('players-pagination');
+            if (paginationEl.querySelector('.pagination-item.active') === null) {
+                const firstPage = document.createElement('div');
+                firstPage.className = 'pagination-item active';
+                firstPage.textContent = '1';
+                paginationEl.innerHTML = '';
+                paginationEl.appendChild(firstPage);
+            }
+
+            renderPlayersTable(players);
+        }
+
+        function renderPlayersTable(players) {
+            const playersTableEl = document.getElementById('players-table');
+            playersTableEl.innerHTML = '';
+
+            const currentPage = parseInt(document.querySelector('#players-pagination .pagination-item.active').textContent);
+            const itemsPerPage = 5;
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+
+            const paginatedPlayers = players.slice(startIndex, endIndex);
+
+            if (paginatedPlayers.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = '<td colspan="6" style="text-align: center;">No players found</td>';
+                playersTableEl.appendChild(row);
+                return;
+            }
+
+            paginatedPlayers.forEach(player => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${player.id}</td>
+                    <td>${player.name}</td>
+                    <td>${player.steamId}</td>
+                    <td><span class="status status-${player.status}">${player.status}</span></td>
+                    <td>${player.ping} ms</td>
+                    <td class="actions">
+                        <button class="btn btn-primary select-player-btn" data-id="${player.id}" data-name="${player.name}">
+                            <i class="fas fa-user-cog"></i> Select
+                        </button>
+                    </td>
+                `;
+                playersTableEl.appendChild(row);
+            });
+
+            document.querySelectorAll('.select-player-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const playerId = btn.getAttribute('data-id');
+                    const playerName = btn.getAttribute('data-name');
+                    document.getElementById('action-player').value = `${playerName} (ID: ${playerId})`;
+                    document.getElementById('player-actions-modal').style.display = 'flex';
+
+                    document.getElementById('player-actions-modal').setAttribute('data-player-id', playerId);
+                });
+            });
+
+            updatePagination('players-pagination', players.length, itemsPerPage, currentPage);
+        }
+
+        function updateResourcesData(resources) {
+            if (!resources || !Array.isArray(resources)) return;
+
+            allResources = resources;
+
+            const paginationEl = document.getElementById('resources-pagination');
+            if (paginationEl.querySelector('.pagination-item.active') === null) {
+                const firstPage = document.createElement('div');
+                firstPage.className = 'pagination-item active';
+                firstPage.textContent = '1';
+                paginationEl.innerHTML = '';
+                paginationEl.appendChild(firstPage);
+            }
+
+            renderResourcesTable(resources);
+        }
+
+        function renderResourcesTable(resources) {
+            const resourcesTableEl = document.getElementById('resources-table');
+            resourcesTableEl.innerHTML = '';
+
+            const currentPage = parseInt(document.querySelector('#resources-pagination .pagination-item.active').textContent);
+            const itemsPerPage = 5;
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+
+            const paginatedResources = resources.slice(startIndex, endIndex);
+
+            if (paginatedResources.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = '<td colspan="5" style="text-align: center;">No resources found</td>';
+                resourcesTableEl.appendChild(row);
+                return;
+            }
+
+            paginatedResources.forEach(resource => {
+                const row = document.createElement('tr');
+                const isStopped = resource.status === 'stopped';
+
+                row.innerHTML = `
+                    <td>${resource.name}</td>
+                    <td><span class="status status-${isStopped ? 'stopped' : 'online'}">${resource.status}</span></td>
+                    <td>${resource.version}</td>
+                    <td>${resource.author}</td>
+                    <td class="actions">
+                        ${isStopped ?
+                        `<button class="btn btn-success start-btn" data-name="${resource.name}">
+                                <i class="fas fa-play"></i> Start
+                            </button>` :
+                        `<button class="btn btn-primary restart-btn" data-name="${resource.name}">
+                                <i class="fas fa-sync-alt"></i> Restart
+                            </button>
+                            <button class="btn btn-danger stop-btn" data-name="${resource.name}">
+                                <i class="fas fa-stop"></i> Stop
+                            </button>`
+                    }
+                    </td>
+                `;
+                resourcesTableEl.appendChild(row);
+            });
+
+            document.querySelectorAll('.restart-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const resourceName = btn.getAttribute('data-name');
+                    sendToClient('restartResource', { resourceName });
+                });
+            });
+
+            document.querySelectorAll('.stop-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const resourceName = btn.getAttribute('data-name');
+                    sendToClient('stopResource', { resourceName });
+                });
+            });
+
+            document.querySelectorAll('.start-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const resourceName = btn.getAttribute('data-name');
+                    sendToClient('startResource', { resourceName });
+                });
+            });
+
+            updatePagination('resources-pagination', resources.length, itemsPerPage, currentPage);
+        }
+
+        function updateBansData(bans) {
+            if (!bans || !Array.isArray(bans)) return;
+
+            allBans = bans;
+            renderBansTable(bans);
+        }
+
+        function renderBansTable(bans) {
+            const bansTableEl = document.getElementById('bans-table');
+            bansTableEl.innerHTML = '';
+
+            const paginationEl = document.getElementById('bans-pagination');
+            const activePageEl = paginationEl.querySelector('.pagination-item.active');
+            const currentPage = activePageEl ? parseInt(activePageEl.textContent) : 1;
+
+            const itemsPerPage = 5;
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+
+            const paginatedBans = bans.slice(startIndex, endIndex);
+
+            if (paginatedBans.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = '<td colspan="4" style="text-align: center;">No bans found</td>';
+                bansTableEl.appendChild(row);
+                return;
+            }
+
+            paginatedBans.forEach(ban => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${ban.name || 'Unknown'}</td>
+                    <td>${ban.id || 'Unknown'}</td>
+                    <td>${ban.reason || 'No reason provided'}</td>
+                    <td class="actions">
+                        <button class="btn btn-primary unban-btn" data-banid="${ban.id}">
+                            <i class="fas fa-undo"></i> Unban
+                        </button>
+                    </td>
+                `;
+                bansTableEl.appendChild(row);
+            });
+
+            document.querySelectorAll('.unban-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const banId = btn.getAttribute('data-banid');
+                    sendToClient('unbanPlayer', { banId });
+
+                    const row = btn.closest('tr');
+                    row.remove();
+
+                    const index = allBans.findIndex(ban => ban.id === banId);
+                    if (index !== -1) {
+                        allBans.splice(index, 1);
+                        document.getElementById('ban-count').textContent = allBans.length;
+
+                        renderBansTable(allBans);
+                    }
+                });
+            });
+
+            updatePagination('bans-pagination', bans.length, itemsPerPage, currentPage);
+        }
+
+        function updateVehiclesData(vehicles) {
+            if (!vehicles || !Array.isArray(vehicles)) return;
+
+            allVehicles = vehicles;
+
+            const paginationEl = document.getElementById('vehicles-pagination');
+            if (paginationEl.querySelector('.pagination-item.active') === null) {
+                const firstPage = document.createElement('div');
+                firstPage.className = 'pagination-item active';
+                firstPage.textContent = '1';
+                paginationEl.innerHTML = '';
+                paginationEl.appendChild(firstPage);
+            }
+
+            renderVehiclesTable(vehicles);
+        }
+
+        function renderVehiclesTable(vehicles) {
+            const vehiclesTableEl = document.getElementById('vehicles-table');
+            vehiclesTableEl.innerHTML = '';
+
+            const currentPage = parseInt(document.querySelector('#vehicles-pagination .pagination-item.active').textContent);
+            const itemsPerPage = 5;
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+
+            const paginatedVehicles = vehicles.slice(startIndex, endIndex);
+
+            if (paginatedVehicles.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = '<td colspan="5" style="text-align: center;">No vehicles found</td>';
+                vehiclesTableEl.appendChild(row);
+                return;
+            }
+
+            paginatedVehicles.forEach(vehicle => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${vehicle.model}</td>
+                    <td>${vehicle.owner}</td>
+                    <td>${vehicle.plate}</td>
+                    <td>${vehicle.location}</td>
+                    <td class="actions">
+                        <button class="btn btn-warning teleport-btn" data-model="${vehicle.model}" data-id="${vehicle.id}">
+                            <i class="fas fa-map-marker-alt"></i> Teleport
+                        </button>
+                        <button class="btn btn-danger delete-vehicle-btn" data-model="${vehicle.model}" data-id="${vehicle.id}">
+                            <i class="fas fa-trash-alt"></i> Delete
+                        </button>
+                    </td>
+                `;
+                vehiclesTableEl.appendChild(row);
+            });
+
+            document.querySelectorAll('.teleport-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const vehicleId = btn.getAttribute('data-id');
+                    sendToClient('teleportToVehicle', { vehicleId });
+                });
+            });
+
+            document.querySelectorAll('.delete-vehicle-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const vehicleId = btn.getAttribute('data-id');
+                    sendToClient('deleteVehicle', { vehicleId });
+                });
+            });
+
+            updatePagination('vehicles-pagination', vehicles.length, itemsPerPage, currentPage);
+        }
+
+        function updateAnnouncementsData(announcements) {
+            if (!announcements || !Array.isArray(announcements)) return;
+
+            const announcementsListEl = document.getElementById('announcements-list');
+            announcementsListEl.innerHTML = '';
+
+            announcements.forEach(announcement => {
+                const announcementEl = document.createElement('div');
+                announcementEl.className = 'announcement';
+                announcementEl.innerHTML = `
+                    <div class="announcement-title">
+                        <i class="fas fa-bullhorn"></i> ${announcement.title}
+                    </div>
+                    <div class="announcement-content">
+                        ${announcement.content}
+                    </div>
+                    <div class="announcement-time">${announcement.time}</div>
+                `;
+                announcementsListEl.appendChild(announcementEl);
+            });
+        }
+
+        function initPlayerChart(playerHistory) {
+            const ctx = document.getElementById('playerChart').getContext('2d');
+
+            const labels = [];
+            const data = [];
+
+            if (playerHistory && playerHistory.length > 0) {
+                playerHistory.forEach(entry => {
+                    labels.push(entry.time);
+                    data.push(entry.count);
+                });
+            } else {
+                const now = new Date();
+
+                for (let i = 0; i < 24; i++) {
+                    const time = new Date(now);
+                    time.setHours(now.getHours() - 23 + i);
+                    labels.push(time.getHours() + ':00');
+                    data.push(Math.floor(Math.random() * 20) + 5);
+                }
+            }
+
+            if (playerChart) {
+                playerChart.destroy();
+            }
+
+            playerChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Players Online',
+                        data: data,
+                        borderColor: '#5077dc',
+                        backgroundColor: 'rgba(80, 119, 220, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.05)'
+                            },
+                            ticks: {
+                                color: '#a0a0a0'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.05)'
+                            },
+                            ticks: {
+                                color: '#a0a0a0'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        fetch(`https://${GetParentResourceName()}/getBans`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            },
+            body: JSON.stringify({})
+        })
+
+        const tabLinks = document.querySelectorAll('.nav-link');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                tabLinks.forEach(tab => tab.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+
+                link.classList.add('active');
+                const tabId = link.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        document.getElementById('close-panel').addEventListener('click', () => {
+            document.getElementById('admin-panel').style.display = 'none';
+            sendToClient('closePanel', {});
+        });
+
+        const modalCloseButtons = document.querySelectorAll('.modal-close, .modal-close-btn');
+        modalCloseButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.getElementById('message-modal').style.display = 'none';
+                document.getElementById('announcement-modal').style.display = 'none';
+                document.getElementById('player-actions-modal').style.display = 'none';
+            });
+        });
+
+        document.getElementById('add-announcement').addEventListener('click', () => {
+            document.getElementById('announcement-modal').style.display = 'flex';
+        });
+
+        document.getElementById('save-announcement').addEventListener('click', () => {
+            const title = document.getElementById('announcement-title').value;
+            const content = document.getElementById('announcement-content').value;
+
+            if (title && content) {
+                sendToClient('addAnnouncement', { title, content });
+
+                document.getElementById('announcement-title').value = '';
+                document.getElementById('announcement-content').value = '';
+                document.getElementById('announcement-modal').style.display = 'none';
+            }
+        });
+
+        document.getElementById('send-message').addEventListener('click', () => {
+            const playerInfo = document.getElementById('message-player').value;
+            const message = document.getElementById('message-content').value;
+
+            if (message && playerInfo) {
+                const match = playerInfo.match(/ID: (\d+)/);
+                if (match) {
+                    const playerId = match[1];
+                    sendToClient('sendMessageToPlayer', { playerId, message });
+
+                    document.getElementById('message-content').value = '';
+                    document.getElementById('message-modal').style.display = 'none';
+                }
+            }
+        });
+
+        document.getElementById('spawn-vehicle').addEventListener('click', () => {
+            const model = document.getElementById('vehicle-model').value;
+            if (model) {
+                sendToClient('spawnVehicle', { model });
+                document.getElementById('vehicle-model').value = '';
+            }
+        });
+
+        document.getElementById('delete-closest-vehicle').addEventListener('click', () => {
+            sendToClient('deleteClosestVehicle', {});
+        });
+
+        document.getElementById('delete-all-vehicles').addEventListener('click', () => {
+            if (confirm('Are you sure you want to delete all vehicles?')) {
+                sendToClient('deleteAllVehicles', {});
+            }
+        });
+
+        document.getElementById('toggle-noclip').addEventListener('click', () => {
+            sendToClient('toggleNoclip', {});
+        });
+
+        document.getElementById('kick-player').addEventListener('click', () => {
+            const playerId = document.getElementById('kick-player-id').value;
+            const reason = document.getElementById('kick-reason').value;
+
+            if (playerId && reason) {
+                sendToClient('kickPlayer', { playerId, reason });
+                document.getElementById('kick-player-id').value = '';
+                document.getElementById('kick-reason').value = '';
+            }
+        });
+
+        document.getElementById('ban-player').addEventListener('click', () => {
+            const playerId = document.getElementById('ban-player-id').value;
+            const reason = document.getElementById('ban-reason').value;
+            const duration = document.getElementById('ban-duration').value;
+
+            if (playerId && reason) {
+                sendToClient('banPlayer', { playerId, reason, duration });
+                document.getElementById('ban-player-id').value = '';
+                document.getElementById('ban-reason').value = '';
+                document.getElementById('ban-duration').value = '';
+            }
+        });
+
+        document.getElementById('teleport-to-me').addEventListener('click', () => {
+            const playerId = document.getElementById('player-actions-modal').getAttribute('data-player-id');
+            if (playerId) {
+                sendToClient('teleportPlayerToMe', { playerId });
+                document.getElementById('player-actions-modal').style.display = 'none';
+            }
+        });
+
+        document.getElementById('teleport-to-player').addEventListener('click', () => {
+            const playerId = document.getElementById('player-actions-modal').getAttribute('data-player-id');
+            if (playerId) {
+                sendToClient('teleportToPlayer', { playerId });
+                document.getElementById('player-actions-modal').style.display = 'none';
+            }
+        });
+
+        document.getElementById('action-message').addEventListener('click', () => {
+            const playerId = document.getElementById('player-actions-modal').getAttribute('data-player-id');
+            const playerInfo = document.getElementById('action-player').value;
+            if (playerId) {
+                document.getElementById('message-player').value = playerInfo;
+                document.getElementById('player-actions-modal').style.display = 'none';
+                document.getElementById('message-modal').style.display = 'flex';
+            }
+        });
+
+        document.getElementById('action-kick').addEventListener('click', () => {
+            const playerId = document.getElementById('player-actions-modal').getAttribute('data-player-id');
+            if (playerId) {
+                document.getElementById('kick-player-id').value = playerId;
+                document.getElementById('player-actions-modal').style.display = 'none';
+                document.querySelector('.nav-link[data-tab="admin"]').click();
+            }
+        });
+
+        document.getElementById('action-ban').addEventListener('click', () => {
+            const playerId = document.getElementById('player-actions-modal').getAttribute('data-player-id');
+            if (playerId) {
+                document.getElementById('ban-player-id').value = playerId;
+                document.getElementById('player-actions-modal').style.display = 'none';
+                document.querySelector('.nav-link[data-tab="admin"]').click();
+            }
+        });
+
+        document.getElementById('players-search').addEventListener('input', function (e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredPlayers = allPlayers.filter(player =>
+                player.name.toLowerCase().includes(searchTerm) ||
+                player.steamId.toLowerCase().includes(searchTerm) ||
+                player.id.toString().includes(searchTerm)
+            );
+            renderPlayersTable(filteredPlayers);
+        });
+
+        document.getElementById('resources-search').addEventListener('input', function (e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredResources = allResources.filter(resource =>
+                resource.name.toLowerCase().includes(searchTerm) ||
+                resource.author.toLowerCase().includes(searchTerm)
+            );
+            renderResourcesTable(filteredResources);
+        });
+
+        document.getElementById('bans-search').addEventListener('input', function (e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredBans = allBans.filter(ban =>
+                ban.name.toLowerCase().includes(searchTerm) ||
+                ban.id.toLowerCase().includes(searchTerm) ||
+                ban.id.toLowerCase().includes(searchTerm) ||
+                ban.reason.toLowerCase().includes(searchTerm)
+            );
+            renderBansTable(filteredBans);
+        });
+
+        document.getElementById('vehicles-search').addEventListener('input', function (e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredVehicles = allVehicles.filter(vehicle =>
+                vehicle.model.toLowerCase().includes(searchTerm) ||
+                vehicle.plate.toLowerCase().includes(searchTerm) ||
+                vehicle.owner.toLowerCase().includes(searchTerm) ||
+                vehicle.location.toLowerCase().includes(searchTerm)
+            );
+            renderVehiclesTable(filteredVehicles);
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === document.getElementById('message-modal')) {
+                document.getElementById('message-modal').style.display = 'none';
+            }
+            if (event.target === document.getElementById('announcement-modal')) {
+                document.getElementById('announcement-modal').style.display = 'none';
+            }
+            if (event.target === document.getElementById('player-actions-modal')) {
+                document.getElementById('player-actions-modal').style.display = 'none';
+            }
+        });
+
+        loadBans();
+
+        document.getElementById('refresh-bans').addEventListener('click', refreshBans);
+
+        function GetParentResourceName() {
+            try {
+                return window.GetParentResourceName();
+            } catch (e) {
+                return 'CyberAnticheat'; // ✅ correct
+            }
+        }
+
+
+        function updatePagination(paginationId, totalItems, itemsPerPage, currentPage) {
+            const paginationEl = document.getElementById(paginationId);
+            if (!paginationEl) return;
+
+            paginationEl.innerHTML = '';
+
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+            if (totalPages <= 1) {
+                paginationEl.style.display = 'none';
+                return;
+            } else {
+                paginationEl.style.display = 'flex';
+            }
+
+            if (currentPage > 1) {
+                const prevItem = document.createElement('div');
+                prevItem.className = 'pagination-item';
+                prevItem.innerHTML = '<i class="fas fa-chevron-left"></i>';
+                prevItem.addEventListener('click', () => {
+                    const newPage = currentPage - 1;
+                    updatePaginationPage(paginationId, newPage);
+
+                    if (paginationId === 'players-pagination') {
+                        renderPlayersTable(allPlayers);
+                    } else if (paginationId === 'resources-pagination') {
+                        renderResourcesTable(allResources);
+                    } else if (paginationId === 'bans-pagination') {
+                        renderBansTable(allBans);
+                    } else if (paginationId === 'vehicles-pagination') {
+                        renderVehiclesTable(allVehicles);
+                    }
+                });
+                paginationEl.appendChild(prevItem);
+            }
+
+            for (let i = 1; i <= totalPages; i++) {
+                const pageItem = document.createElement('div');
+                pageItem.className = 'pagination-item';
+                if (i === currentPage) {
+                    pageItem.classList.add('active');
+                }
+                pageItem.textContent = i;
+                pageItem.addEventListener('click', () => {
+                    updatePaginationPage(paginationId, i);
+
+                    if (paginationId === 'players-pagination') {
+                        renderPlayersTable(allPlayers);
+                    } else if (paginationId === 'resources-pagination') {
+                        renderResourcesTable(allResources);
+                    } else if (paginationId === 'bans-pagination') {
+                        renderBansTable(allBans);
+                    } else if (paginationId === 'vehicles-pagination') {
+                        renderVehiclesTable(allVehicles);
+                    }
+                });
+                paginationEl.appendChild(pageItem);
+            }
+
+            if (currentPage < totalPages) {
+                const nextItem = document.createElement('div');
+                nextItem.className = 'pagination-item';
+                nextItem.innerHTML = '<i class="fas fa-chevron-right"></i>';
+                nextItem.addEventListener('click', () => {
+                    const newPage = currentPage + 1;
+                    updatePaginationPage(paginationId, newPage);
+
+                    if (paginationId === 'players-pagination') {
+                        renderPlayersTable(allPlayers);
+                    } else if (paginationId === 'resources-pagination') {
+                        renderResourcesTable(allResources);
+                    } else if (paginationId === 'bans-pagination') {
+                        renderBansTable(allBans);
+                    } else if (paginationId === 'vehicles-pagination') {
+                        renderVehiclesTable(allVehicles);
+                    }
+                });
+                paginationEl.appendChild(nextItem);
+            }
+        }
+
+        function updatePaginationPage(paginationId, newPage) {
+            const paginationEl = document.getElementById(paginationId);
+            if (!paginationEl) return;
+
+            const currentActive = paginationEl.querySelector('.pagination-item.active');
+            if (currentActive) {
+                currentActive.classList.remove('active');
+            }
+
+            const pageItems = paginationEl.querySelectorAll('.pagination-item');
+            let pageFound = false;
+
+            for (let i = 0; i < pageItems.length; i++) {
+                if (pageItems[i].textContent === newPage.toString()) {
+                    pageItems[i].classList.add('active');
+                    pageFound = true;
+                    break;
+                }
+            }
+
+            if (!pageFound && pageItems.length > 0) {
+                pageItems[0].classList.add('active');
+            }
+        }
+    </script>
+</body>
+
+</html>
