@@ -14,11 +14,10 @@
 
 ---
 
-CyberAnticheat is an open-source anti-cheat system for FiveM.
-
 It is designed to help protect servers against cheats, exploits, and malicious event abuse.
 
 This repository contains the open-source version of CyberAnticheat.
 
 ---
+
 
