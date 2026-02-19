@@ -1,23 +1,30 @@
 <div align="center">
 
-# CyberAnticheat - OpenSource
+# CYAC - AntiCheat for FiveM
 
----
+Open-Source Anti-Cheat System for FiveM Servers
 
-### Open-Source Anti-Cheat for FiveM
-
-<br>
-
-<img src="https://s3-eu-west-1.amazonaws.com/tpd/logos/66d9f52dfee7b0c8732ef26b/0x0.png" width="260"/>
+<p align="center">
+  <img src="https://img.shields.io/badge/FiveM-Compatible-orange?style=for-the-badge">
+  <img src="https://img.shields.io/badge/Status-Active-blue?style=for-the-badge">
+</p>
 
 </div>
 
 ---
 
-It is designed to help protect servers against cheats, exploits, and malicious event abuse.
+## About
 
-This repository contains the open-source version of CyberAnticheat.
+CYAC is an open-source anti-cheat system developed specifically for FiveM servers.
 
----
+It is designed to protect servers against:
 
+- Cheat menus  
+- Lua injectors  
+- Event abuse  
+- Exploits  
+- Unauthorized resource manipulation  
+- Suspicious player activity  
+
+This repository contains the open-source version of CYAC.
 
